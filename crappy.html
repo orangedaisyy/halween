@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Halloween Check</title>
+  <style>
+    body {
+      background-color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      user-select: none; /* Disable text selection */
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-user-select: none;
+    }
+
+    h1 {
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 72px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 148px;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      var today = new Date();
+      var isHalloween = today.getMonth() === 9 && today.getDate() === 31;
+
+      function getCountry() {
+        $.getJSON("https://api.ipgeolocation.io/ipgeo?apiKey=a28bf57e88cf48929ee5c89bddf796d1", function(data) {
+          var country = data.country_name;
+          displayResult(country);
+        });
+      }
+
+      function displayResult(country) {
+        var message = "";
+
+        if (isHalloween) {
+          switch (country) {
+            case "United States":
+              message = "YES"; // English
+              break;
+            case "Germany":
+              message = "JA"; // German
+              break;
+            case "Spain":
+              message = "SÍ"; // Spanish
+              break;
+            // Add more cases for other countries
+            default:
+              message = "Yes"; // Default message
+              break;
+          }
+        } else {
+          switch (country) {
+            case "United States":
+              message = "NO"; // English
+              break;
+            case "Germany":
+              message = "NEIN"; // German
+              break;
+            case "Spain":
+              message = "NO"; // Spanish
+              break;
+            // Add more cases for other countries
+            default:
+              message = "NO"; // Default message
+              break;
+          }
+        }
+
+        $("#result").text(message);
+      }
+
+      getCountry();
+    });
+  </script>
+</head>
+
+<body>
+  <h1></h1>
+  <p id="result"></p>
+</body>
+
+</html>
